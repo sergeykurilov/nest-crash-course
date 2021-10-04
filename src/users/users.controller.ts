@@ -4,6 +4,7 @@ import {
   Get,
   NotFoundException,
   Param,
+  ParseIntPipe,
   Post,
   Query,
 } from '@nestjs/common';
@@ -33,8 +34,9 @@ export class UsersController {
   @ApiOkResponse({ type: User, description: 'the user' })
   @ApiNotFoundResponse()
   @Get(':id')
-  getUserById(@Param('id') id: string): User {
+  getUserById(@Param('id', ParseIntPipe) id: number): User {
     //
+    console.log(typeof id);
     const user = this.usersService.findById(Number(id));
     if (!user) {
       throw new NotFoundException({
